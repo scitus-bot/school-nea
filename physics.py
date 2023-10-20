@@ -4,7 +4,7 @@ from vpython import *
 
 
 class Ground(box):
-    def __init__(self, **args) -> None:
+    def __init__(self, g_accel: float, **args) -> None:
         """ Iniitalises a Ground object (a flat plane 50x50 centred at origin) """
         super().__init__(
             pos=vector(0, 0, 0),
@@ -13,6 +13,7 @@ class Ground(box):
             width=50,
             **args,
             )
+        self.acceleration = g_accel
 
 
 class Object(sphere):

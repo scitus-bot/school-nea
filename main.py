@@ -1,37 +1,21 @@
+from physics import *
 from time import sleep
 from vpython import *
 
 
-class Ground(box):
-    def __init__(self, **args):
-        super().__init__(
-            pos=vector(0, 0, 0), 
-            length=50,
-            height=0,
-            width=50,
-            **args
-            )
-        
-        
-        
-class Object(sphere):
-    def __init__(self, **args):
-        super().__init__(**args)
-        
-        
-ground = Ground()
-
-
+# want all objects defined in this way
+# none of this one-line object defining
+ground = Ground(
+    g_accel=-9.81
+)
 
 
 x, y, z = 0, 10, 0
 r_b = 1
 
-
-ball = sphere(
+ball = Object(
     pos=vector(x, y, z),
-    radius=r_b,
-    color=color.red
+    color=color.red,
 )
 
 ball_label = label(
@@ -40,17 +24,16 @@ ball_label = label(
 )
 
 
-
-a = -9.81
-dt = 0.01
-v = 0
+a = ground.acceleration
+v = 0 # initial velocity 
+dt = 0.01 # should decide on a single value of dt that i use for now (later) 
 
 while True:
     
     # chaning the balls position
     y += v*dt
     v += a*dt
-    ball.pos = vector(x, y, z)
+    ball.set_pos(x, y, z)    
 
     # adjusting the label so it shows accurate info 
     ball_label.text = f"vy = {round(v, 2)}"
