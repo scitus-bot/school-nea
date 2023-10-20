@@ -19,9 +19,6 @@ class Object(sphere):
         super().__init__(**args)
         
         
-        
-        
-        
 ground = Ground()
 
 
@@ -29,6 +26,8 @@ ground = Ground()
 
 x, y, z = 0, 10, 0
 r_b = 1
+
+
 ball = sphere(
     pos=vector(x, y, z),
     radius=r_b,
