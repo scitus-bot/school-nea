@@ -22,8 +22,8 @@ class Object(sphere):
             **args
             )
         
-    def set_pos(self, new_pos: vector) -> None:
-        self.pos = new_pos
+    def set_pos(self, new_pos: tuple) -> None:
+        self.pos = vector(new_pos)
 
 
 
