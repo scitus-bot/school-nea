@@ -1,58 +1,18 @@
+import json
 from physics import *
 from time import sleep
-import tkinter as tk
 from vpython import *
 
 
-""" The physics part """
-
-refresh_rate = 100
-dt = round(1/refresh_rate, 3) # round to ms 
 
 
-# want all objects defined in this way
-# none of this one-line object defining
-ground = Ground(
-    g_accel=-9.81
-)
+""" Simulator set-up """
 
+config_file = "config.json"
 
-# initial ball features
-x, y, z = 0, 10, 0
-r_b = 1
-
-ball = Object(
-    pos=vector(x, y, z),
-    color=color.red,
-    make_trail=True
-)
-
-lbl_ball = label(
-    xoffset=100,
-    yoffset=50,
-    pos=ball.pos
-)
-
-
-ball2 = Object(
-    pos=vector(x, y, z),
-    color=color.green,
-    make_trail=True
-)
-
-lbl_b2 = label(
-    xoffset=100,
-    yoffset=50,
-    pos=ball2.pos
-)
-
-
-a = ground.acceleration
-# initial velocities
-vy = 10
-vx = 5
-vz = 5
-
+with open(config_file, "r") as cf:
+    file_content_str: str = "".join([l.strip() for l in cf.readlines()])
+    config: dict = json.loads(file_content_str)
 
 
 # if true then the sim. pauses 
@@ -67,38 +27,62 @@ def pause_button(b) -> None:
 button(bind=pause_button, text="Pause")
 
 
-sleep(10)
+
+""" Physics Related Stuff starts here """
+
+def object_from_dict(data: dict) -> simple_sphere:
+    obj = simple_sphere()
+    
+    # all the yucky vector ones
+    # in X Y Z
+    obj.pos = vector(
+        data["init_pos"][0], data["init_pos"][1], data["init_pos"][2]
+    )
+    
+    obj.v = vector(
+        data["init_vel"][0], data["init_vel"][1], data["init_vel"][2]
+    )
+    
+    # in R G B 
+    obj.color = vector(
+        data["colour"][0], data["colour"][1], data["colour"][2]
+    )
+    
+    obj.m = data["mass"]
+    obj.cd = data["drag_coefficient"]
+    obj.A = data["projected_area"]
+    obj.make_trail = data["make_trail"]
+    obj.radius = data["size"]
+
+    return obj
+
+
+
+
+refresh_rate = config[0]["refresh_rate"]
+# round to ms
+dt = round(1/refresh_rate, 3) 
+
+# ground object
+ground = Ground()
+g = config[0]["g_accel"]
+
+objects: list[simple_sphere] = []
+
+for i in range(len(config[1])):
+    objects.append(object_from_dict(config[1][i]))
+
+
+
+
+""" Loop section """
 while True:
-    # pause the sim. (do no processing) if the sim. is paused
-    if pause: continue
+    for obj in objects:
+        obj.pos = obj.pos + obj.v*dt
+        obj.v.y *= g*dt
+        
+        if obj.pos.y < obj.radius:
+            obj.pos.y = obj.radius
+            obj.v.y *= -0.50
     
-    # chaning the balls position
-    y += vy*dt
-    vy += a*dt
-    x += vx*dt
-    z += vz*dt
-    
-    
-    # so that the obj doesnt fall underneath the surface
-    if y < r_b:
-        y = r_b
-        vy *= -0.70 # making it not -1 makes it so that it eventually stops bouncing
-        # vx *= 0.75
-
-        # if vy < epsilon: vy = 0
-        # if vx < epsilon: vx = 0
-    
-    
-    ball2.set_pos(0, y, z)
-    ball.set_pos(x, y, z)
-
-    # adjusting the label so it shows accurate info
-    lbl_ball.text = f"y = {round(y, 2)}\nvy = {round(vy, 2)}"
-    lbl_ball.pos = ball.pos
-    
-    lbl_b2.text = f"yeah {round(z, 2)}"
-    lbl_b2.pos = ball2.pos
-
-
-
     sleep(dt)
