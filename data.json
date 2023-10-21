@@ -1,0 +1,22 @@
+[
+    {
+        "name": "environment",
+        "type": "normal",
+        "g_accel": -9.81,
+        "air_density": null,
+        "relativistic": false
+    },
+    [
+        {
+            "name": "ball 1",
+            "shape": "sphere",
+            "size": 1,
+            "mass": null,
+            "drag_coefficient": null,
+            "projected_area": null,
+            "initial_pos": [0, 10, 0],
+            "initial_vel": [5, 10, 5],
+            "initial_acc": [0, 0, 0]
+        }
+    ]
+]
