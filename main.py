@@ -77,12 +77,14 @@ for i in range(len(config[1])):
 
 """ Loop section """
 while True:
+    if pause: continue
     for obj in objects:
+
         obj.pos = obj.pos + obj.v*dt
-        obj.v.y *= g*dt
+        obj.v.y += g*dt
         
         if obj.pos.y < obj.radius:
             obj.pos.y = obj.radius
             obj.v.y *= -0.50
     
-    sleep(dt)
+    sleep(dt/1000)
