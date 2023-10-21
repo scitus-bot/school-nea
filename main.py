@@ -2,6 +2,12 @@ from physics import *
 from time import sleep
 from vpython import *
 
+
+
+refresh_rate = 60
+dt = round(1/refresh_rate, 3) # round to ms 
+
+
 # want all objects defined in this way
 # none of this one-line object defining
 ground = Ground(
@@ -9,7 +15,8 @@ ground = Ground(
 )
 
 
-x, y, z = 0, 1, 0
+# initial ball features
+x, y, z = 0, 10, 0
 r_b = 1
 
 ball = Object(
@@ -25,20 +32,32 @@ ball_label = label(
 
 
 a = ground.acceleration
-vy = 10 # initial velocity 
-vx = 10
-refresh_rate = 60
-dt = 1/60 # should decide on a single value of dt that i use for now (later) 
+# initial velocities
+vy = 10
+vx = 5
+
+# if true then the sim. pauses 
+pause = False
+
+def pause_button(b) -> None:
+    """ Pauses the simulation and changed the button text """
+    global pause
+    pause = not pause
+    b.text = "Pause" if not pause else "Run"
+
+button(bind=pause_button, text="Pause")
 
 while True:
+    # pause the sim. (do no processing) if the sim. is paused
+    if pause: continue
     
     # chaning the balls position
     y += vy*dt
     vy += a*dt
     x += vx*dt
-    ball.set_pos(x, y, z)    
+    ball.set_pos(x, y, z)
 
-    # adjusting the label so it shows accurate info 
+    # adjusting the label so it shows accurate info
     ball_label.text = f"y = {round(y, 2)}\nvy = {round(vy, 2)}"
     ball_label.pos = ball.pos
 
@@ -47,4 +66,8 @@ while True:
         vy *= -0.70 # making it not -1 makes it so that it eventually stops bouncing
         vx *= 0.75
 
-    sleep(dt)
+        # if vy < epsilon: vy = 0
+        # if vx < epsilon: vx = 0
+
+
+    sleep(round(dt, 3))
