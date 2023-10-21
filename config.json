@@ -5,7 +5,7 @@
         "g_accel": -9.81,
         "air_density": null,
         "relativistic": false,
-        "refresh_rate": 100
+        "refresh_rate": 60
     },
     [
         {
@@ -13,13 +13,13 @@
             "shape": "sphere",
             "size": 1,
             "make_trail": true,
-            "colour": "red",
+            "colour": [1, 0, 0],
             "mass": null,
             "drag_coefficient": null,
             "projected_area": null,
-            "initial_pos": [0, 10, 0],
-            "initial_vel": [5, 10, 5],
-            "initial_acc": [0, 0, 0]
+            "init_pos": [0, 10, 0],
+            "init_vel": [0, 0, 0],
+            "init_acc": [0, 0, 0]
         }
     ]
 ]
