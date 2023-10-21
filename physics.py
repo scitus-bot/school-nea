@@ -2,7 +2,6 @@
 from vpython import *
 
 
-
 class Ground(box):
     def __init__(self, g_accel: float, **args) -> None:
         """ Iniitalises a Ground object (a flat plane 50x50 centred at origin) """
@@ -25,9 +24,6 @@ class Object(sphere):
         
     def set_pos(self, newX: float, newY: float, newZ: float) -> None:
         self.pos = vector(newX, newY, newZ)
-
-
-
 
 
 
