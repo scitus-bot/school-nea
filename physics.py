@@ -14,15 +14,17 @@ class Ground(box):
             )
 
 
-class Object(sphere):
-    def __init__(self, **args) -> None:
-        super().__init__(
-            radius=1,
-            **args
-            )
+class Object(simple_sphere):
+    def __init__(self, d):
+        for k, v in d.items():
+            if not isinstance(v, list):
+                setattr(self, k, v)
+            else:
+                setattr(self, k, vector(*v))
+                
         
-    def set_pos(self, newX: float, newY: float, newZ: float) -> None:
-        self.pos = vector(newX, newY, newZ)
+
+
 
 
 
