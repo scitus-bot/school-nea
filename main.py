@@ -8,11 +8,12 @@ from vpython import *
 
 """ Simulator set-up """
 
-config_file = "config.json"
+config_file = "test.json"
 
 with open(config_file, "r") as cf:
     file_content_str: str = "".join([l.strip() for l in cf.readlines()])
     config: dict = json.loads(file_content_str)
+
 
 
 # if true then the sim. pauses 
@@ -28,8 +29,9 @@ button(bind=pause_button, text="Pause")
 
 
 
-""" Physics Related Stuff starts here """
 
+
+""" Physics Related Stuff starts here """
 
 
 refresh_rate = config[0]["refresh_rate"]
@@ -42,24 +44,30 @@ g = config[0]["g_accel"]
 
 objects: list[simple_sphere] = []
 
-for i in range(len(config[1])):
-    objects.append(Object(config[1][i]))
+# for i in range(len(config[1])):
+    # objects.append(Object(config[1][i]))
 
 
-
+ball = Object(config[1][0])
 
 """ Loop section """
 while True:
     rate(refresh_rate)
     if pause: continue
-    for obj in objects:
+    
+    ball.pos += ball.v*dt
+    ball.v.y += g*dt
+    
+    
+    
+    # for obj in objects:
 
-        obj.pos = obj.pos + obj.v*dt
-        obj.v.y += g*dt
+    #     obj.pos = obj.pos + obj.v*dt
+    #     obj.v.y += g*dt
         
-        if obj.pos.y < obj.radius:
-            obj.pos.y = obj.radius
-            obj.v.y *= -0.50
+    #     if obj.pos.y < obj.radius:
+    #         obj.pos.y = obj.radius
+    #         obj.v.y *= -0.50
     
 
     # sleep(dt/1000)
