@@ -9,17 +9,11 @@
     },
     [
         {
-            "name": "ball 1",
             "radius": 1,
             "make_trail": true,
             "retain": 100,
             "color": [1, 0, 0],
-            "m": null,
-            "drag_coefficient": null,
-            "projected_area": null,
-            "pos": [0, 10, 0],
-            "v": [0, 0, 0],
-            "a": [0, 0, 0]
+            "pos": [0, 10, 0]
         }
     ]
 ]
