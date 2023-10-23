@@ -5,25 +5,18 @@ from vpython import *
 class Ground(box):
     def __init__(self, **args) -> None:
         """ Iniitalises a Ground object (a flat plane 50x50 centred at origin) """
-        super().__init__(
+        super().__init__(self,
             pos=vector(0, 0, 0),
             length=50,
             height=0,
             width=50,
-            **args,
+            **args
             )
 
 
 class Object(simple_sphere):
-    def __init__(self, d):
-        for k, v in d.items():
-            if not isinstance(v, list):
-                setattr(self, k, v)
-            else:
-                setattr(self, k, vector(*v))
-                
-        
-
+    def __init__(self, d: dict) -> None:
+        super().__init__(**d)
 
 
 
