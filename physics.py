@@ -3,20 +3,25 @@ from vpython import *
 
 
 class Ground(box):
-    def __init__(self, **args) -> None:
+    def __init__(self) -> None:
         """ Iniitalises a Ground object (a flat plane 50x50 centred at origin) """
-        super().__init__(self,
-            pos=vector(0, 0, 0),
+        super().__init__(self, pos=vector(0, 0, 0),
             length=50,
             height=0,
             width=50,
-            **args
             )
 
 
 class Object(simple_sphere):
     def __init__(self, d: dict) -> None:
-        super().__init__(**d)
+        newd: dict = {}
+        for k, v in d.items():
+            if isinstance(v, list):
+                newd[k] = vector(*v)
+            else:
+                newd[k] = v
+
+        super().__init__(**newd)
 
 
 

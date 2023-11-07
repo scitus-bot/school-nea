@@ -8,7 +8,7 @@ from vpython import *
 
 """ Simulator set-up """
 
-config_file = "test.json"
+config_file = "config.json"
 
 with open(config_file, "r") as cf:
     file_content_str: str = "".join([l.strip() for l in cf.readlines()])
@@ -39,7 +39,7 @@ refresh_rate = config[0]["refresh_rate"]
 dt = round(1/refresh_rate, 3) 
 
 # ground object
-ground = Ground()
+ground = box(pos=vector(0, 0, 0), size=vector(50, 0, 50))
 g = config[0]["g_accel"]
 
 objects: list[simple_sphere] = []
@@ -52,11 +52,16 @@ ball = Object(config[1][0])
 
 """ Loop section """
 while True:
-    rate(refresh_rate)
+    # rate(refresh_rate)
+    sleep(dt/1000)
     if pause: continue
     
     ball.pos += ball.v*dt
     ball.v.y += g*dt
+
+    if ball.pos.y < ball.radius:
+        ball.pos.y = ball.radius
+        ball.v.y *= -1
     
     
     
