@@ -12,13 +12,13 @@
             "name": "ball 1",
             "radius": 1,
             "make_trail": true,
-            "retain": 100,
+            "retain": 20,
             "color": [1, 0, 0],
             "m": null,
             "drag_coefficient": null,
             "projected_area": null,
             "pos": [0, 5, 0],
-            "v": [0, 0, 0],
+            "v": [1, 1, -1],
             "a": [0, 0, 0]
         }
     ]

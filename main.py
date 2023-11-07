@@ -33,46 +33,39 @@ button(bind=pause_button, text="Pause")
 
 """ Physics Related Stuff starts here """
 
+# if on the ground/on a planet
+if config[1]["type"] == "normal":
 
-refresh_rate = config[0]["refresh_rate"]
-# round to ms
-dt = round(1/refresh_rate, 3) 
+    # ground object
+    ground = box(pos=vector(0, 0, 0), size=vector(50, 0, 50))
 
-# ground object
-ground = box(pos=vector(0, 0, 0), size=vector(50, 0, 50))
-g = config[0]["g_accel"]
+    # setting up relevent constants
+    g = config[0]["g_accel"]
+    refresh_rate = config[0]["refresh_rate"]
+    # round to ms
+    dt = round(1/refresh_rate, 3) 
 
-objects: list[simple_sphere] = []
-
-# for i in range(len(config[1])):
-    # objects.append(Object(config[1][i]))
-
-
-ball = Object(config[1][0])
-
-""" Loop section """
-while True:
-    # rate(refresh_rate)
-    sleep(dt/1000)
-    if pause: continue
     
-    ball.pos += ball.v*dt
-    ball.v.y += g*dt
+    objects: list[simple_sphere] = []
+    # for i in range(len(config[1])):
+        # objects.append(Object(config[1][i]))
 
-    if ball.pos.y < ball.radius:
-        ball.pos.y = ball.radius
-        ball.v.y *= -1
-    
-    
-    
-    # for obj in objects:
 
-    #     obj.pos = obj.pos + obj.v*dt
-    #     obj.v.y += g*dt
+
+    ball = Object(config[1][0])
+
+
+
+    """ Loop section """
+    while True:
+        sleep(dt)
+        if pause: continue
         
-    #     if obj.pos.y < obj.radius:
-    #         obj.pos.y = obj.radius
-    #         obj.v.y *= -0.50
-    
+        ball.pos += ball.v*dt
+        ball.v.y += g*dt
 
-    # sleep(dt/1000)
+        if ball.pos.y < ball.radius:
+            # ball.pos.y = ball.radius
+            ball.v.y *= -0.75
+        
+        
