@@ -1,4 +1,5 @@
 import json
+import sys
 from physics import *
 from time import sleep
 from vpython import *
@@ -27,14 +28,18 @@ def pause_button(b) -> None:
 
 button(bind=pause_button, text="Pause")
 
+def end_button(b) -> None:
+    """ Ends the simulation when pressed. """
+    sys.exit()
 
+button(bind=end_button, text="End Simulation")
 
 
 
 """ Physics Related Stuff starts here """
 
 # if on the ground/on a planet
-if config[1]["type"] == "normal":
+if config[0]["type"] == "normal":
 
     # ground object
     ground = box(pos=vector(0, 0, 0), size=vector(50, 0, 50))
@@ -45,7 +50,7 @@ if config[1]["type"] == "normal":
     # round to ms
     dt = round(1/refresh_rate, 3) 
 
-    
+
     objects: list[simple_sphere] = []
     # for i in range(len(config[1])):
         # objects.append(Object(config[1][i]))
@@ -54,6 +59,31 @@ if config[1]["type"] == "normal":
 
     ball = Object(config[1][0])
 
+    """ poor mans select case 
+    0 -> position
+    1 -> velocity
+    2 -> acceleration
+    anything else is text and will be displayed as is
+    """
+    txt = ""
+    if ball.label == 0:
+        txt = ball.pos
+    elif ball.label == 1:
+        txt = ball.v 
+    elif ball.label == 2:
+        txt = ball.a 
+    elif ball.label == -1:
+        txt = None
+    else:
+        txt = str(ball.label)
+    
+    # the ball's label 
+    ball_lbl = label(
+        pos=ball.pos,
+        text=txt,
+        xoffset=40,
+        yoffset=20
+    )
 
 
     """ Loop section """
@@ -61,11 +91,15 @@ if config[1]["type"] == "normal":
         sleep(dt)
         if pause: continue
         
+        # updating ball position and velocity
         ball.pos += ball.v*dt
         ball.v.y += g*dt
 
+        # check collision with floor 
         if ball.pos.y < ball.radius:
-            # ball.pos.y = ball.radius
+            ball.pos.y = ball.radius
             ball.v.y *= -0.75
         
+        ball_lbl.pos = ball.pos
+        ball_lbl.text = ball.v
         
