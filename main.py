@@ -9,7 +9,7 @@ from vpython import *
 
 """ Simulator set-up """
 
-config_file = "config.json"
+config_file: str = "config.json"
 
 with open(config_file, "r") as cf:
     file_content_str: str = "".join([l.strip() for l in cf.readlines()])
@@ -18,7 +18,7 @@ with open(config_file, "r") as cf:
 
 
 # if true then the sim. pauses 
-pause = False
+pause: bool = False
 
 def pause_button(b) -> None:
     """ Pauses the simulation and changed the button text """
@@ -42,13 +42,13 @@ button(bind=end_button, text="End Simulation")
 if config[0]["type"] == "normal":
 
     # ground object
-    ground = box(pos=vector(0, 0, 0), size=vector(50, 0, 50))
+    ground: box = box(pos=vector(0, 0, 0), size=vector(50, 0, 50))
 
     # setting up relevent constants
-    g = config[0]["g_accel"]
-    refresh_rate = config[0]["refresh_rate"]
+    g: float = config[0]["g_accel"]
+    refresh_rate: int = config[0]["refresh_rate"]
     # round to ms
-    dt = round(1/refresh_rate, 3) 
+    dt: float = round(1/refresh_rate, 3) 
 
 
     objects: list[simple_sphere] = []
@@ -57,7 +57,7 @@ if config[0]["type"] == "normal":
 
 
 
-    ball = Object(config[1][0])
+    ball: Object = Object(config[1][0])
 
     """ poor mans select case 
     0 -> position
@@ -65,7 +65,7 @@ if config[0]["type"] == "normal":
     2 -> acceleration
     anything else is text and will be displayed as is
     """
-    txt = ""
+    txt: str = ""
     if ball.label == 0:
         txt = ball.pos
     elif ball.label == 1:
@@ -78,7 +78,7 @@ if config[0]["type"] == "normal":
         txt = str(ball.label)
     
     # the ball's label 
-    ball_lbl = label(
+    ball_lbl: label = label(
         pos=ball.pos,
         text=txt,
         xoffset=40,
