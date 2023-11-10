@@ -52,12 +52,11 @@ if config[0]["type"] == "normal":
 
 
     objects: list[simple_sphere] = []
-    # for i in range(len(config[1])):
-        # objects.append(Object(config[1][i]))
+    for i in range(len(config[1])):
+        objects.append(Object(config[1][i]))
 
 
-
-    ball: Object = Object(config[1][0])
+    # ball: Object = Object(config[1][0])
 
     """ poor mans select case 
     0 -> position
@@ -65,25 +64,30 @@ if config[0]["type"] == "normal":
     2 -> acceleration
     anything else is text and will be displayed as is
     """
-    txt: str = ""
-    if ball.label == 0:
-        txt = ball.pos
-    elif ball.label == 1:
-        txt = ball.v 
-    elif ball.label == 2:
-        txt = ball.a 
-    elif ball.label == -1:
-        txt = None
-    else:
-        txt = str(ball.label)
+    # txt: str = ""
+    # if ball.label == 0:
+    #     txt = ball.pos
+    # elif ball.label == 1:
+    #     txt = ball.v 
+    # elif ball.label == 2:
+    #     txt = ball.a 
+    # elif ball.label == -1:
+    #     txt = None
+    # else:
+    #     txt = str(ball.label)
     
-    # the ball's label 
-    ball_lbl: label = label(
-        pos=ball.pos,
-        text=txt,
-        xoffset=40,
-        yoffset=20
-    )
+    # # the ball's label 
+    # if txt:
+    #     ball_lbl: label = label(
+    #         pos=ball.pos,
+    #         text=txt,
+    #         xoffset=40,
+    #         yoffset=20
+    #     )
+    # else:
+    #     ball_lbl = None
+
+
 
 
     """ Loop section """
@@ -92,14 +96,28 @@ if config[0]["type"] == "normal":
         if pause: continue
         
         # updating ball position and velocity
-        ball.pos += ball.v*dt
-        ball.v.y += g*dt
+        # ball.pos += ball.v*dt
+        # ball.v.y += g*dt
 
-        # check collision with floor 
-        if ball.pos.y < ball.radius:
-            ball.pos.y = ball.radius
-            ball.v.y *= -0.75
+        # # check collision with floor 
+        # if ball.pos.y < ball.radius:
+        #     ball.pos.y = ball.radius
+        #     ball.v.y *= -0.75
         
-        ball_lbl.pos = ball.pos
-        ball_lbl.text = ball.v
+        # ball_lbl.pos = ball.pos
+        # ball_lbl.text = ball.v
+
+        for obj in objects:
+            obj.pos += obj.v*dt
+            obj.v.y += g*dt
         
+            if obj.pos.y < obj.radius:
+                # obj.pos.y = obj.radius
+                obj.v.y *= -1
+
+            # checking if its in an imaginary box
+            if abs(obj.pos.x) > 25:
+                obj.v.x *= -1
+            
+            if abs(obj.pos.z) < 25:
+                obj.v.z *= -1
